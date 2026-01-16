@@ -1,8 +1,9 @@
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-group = "org.example"
+group = "com.realmgate"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -10,11 +11,12 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("ch.jalu:configme:1.4.1")
+    compileOnly(files("libs/HytaleServer.jar"))
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    shadowJar {
+        archiveClassifier.set("")
+    }
 }

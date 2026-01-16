@@ -1,0 +1,20 @@
+{
+  "Group": "com.realmgate",
+  "Name": "RealmGate",
+  "Version": "${version}",
+  "Description": "Lightweight backend server routing and realm management for Hytale",
+  "Authors": [
+    {
+      "Name": "RealmGate Team"
+    }
+  ],
+  "Website": "https://github.com/yourname/realmgate",
+  "ServerVersion": "*",
+  "Dependencies": {
+  },
+  "OptionalDependencies": {
+  },
+  "DisabledByDefault": false,
+  "Main": "com.realmgate.hytale.RealmGatePlugin",
+  "IncludesAssetPack": false
+}

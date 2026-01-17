@@ -2,7 +2,7 @@
   "Group": "com.realmgate",
   "Name": "RealmGate",
   "Version": "${version}",
-  "Description": "Lightweight backend server routing and realm management for Hytale",
+  "Description": "Lightweight backend server routing and server management for Hytale",
   "Authors": [
     {
       "Name": "RealmGate Team"

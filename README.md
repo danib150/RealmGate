@@ -1,6 +1,6 @@
 # RealmGate
 
-**RealmGate** is a lightweight backend server routing and realm management plugin for **Hytale**.  
+**RealmGate** is a lightweight backend server routing and server management plugin for **Hytale**.  
 It provides a simple, configuration-driven way to route players between backend servers without relying on external proxy software.
 
 ---

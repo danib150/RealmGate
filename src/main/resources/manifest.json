@@ -8,13 +8,13 @@
       "Name": "RealmGate Team"
     }
   ],
-  "Website": "https://github.com/yourname/realmgate",
+  "Website": "https://github.com/danib150/realmgate",
   "ServerVersion": "*",
   "Dependencies": {
   },
   "OptionalDependencies": {
   },
   "DisabledByDefault": false,
-  "Main": "com.realmgate.hytale.RealmGatePlugin",
+  "Main": "com.realmgate.RealmGatePlugin",
   "IncludesAssetPack": false
 }

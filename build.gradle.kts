@@ -13,9 +13,22 @@ repositories {
 dependencies {
     implementation("ch.jalu:configme:1.4.1")
     compileOnly(files("libs/HytaleServer.jar"))
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
 }
 
+
 tasks {
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching("**/manifest.json") {
+            expand(
+                "version" to project.version,
+            )
+        }
+    }
+
     shadowJar {
         archiveClassifier.set("")
     }

@@ -1,4 +1,4 @@
-package com.realmgate.config;
+package com.realmgate.services.types.config;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
@@ -17,7 +17,13 @@ public final class RealmGateSettings implements SettingsHolder {
     @Comment("Secret key used to sign and verify referral data between servers")
     public static final Property<String> SECRET_KEY = newProperty("secret-key", "CHANGE_ME");
 
-    @Comment("Enable fallback routing if the requested server is unavailable")
+    @Comment("Redirect-Only Enabled (The server try to redirect you to an another server skipping this server)")
+    public static final Property<Boolean> REDIRECT_ONLY = newProperty("redirect-only", false);
+
+    @Comment("Default server name used when redirect-only or fallback is enabled")
+    public static final Property<String> DEFAULT = newProperty("default-server", "lobby");
+
+    @Comment("Enable fallback routing if the default server is unavailable")
     public static final Property<Boolean> FALLBACK_ENABLED = newProperty("fallback.enabled", false);
 
     @Comment("Fallback list")

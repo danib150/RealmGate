@@ -1,7 +1,7 @@
 package com.realmgate.services.types.redis;
 
 import ch.jalu.configme.SettingsManager;
-import com.realmgate.config.RealmGateSettings;
+import com.realmgate.services.types.config.RealmGateSettings;
 import com.realmgate.services.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -56,17 +56,19 @@ public class RedisService implements Service {
 
     public void publishHeartbeat(String serverName) {
         try (Jedis jedis = pool.getResource()) {
-            jedis.setex(
-                    onlineKey(serverName),
-                    heartbeatTtl,
-                    "1"
-            );
+            jedis.setex(onlineKey(serverName), heartbeatTtl, "1");
         }
     }
 
     public void clearHeartbeat(String serverName) {
         try (Jedis jedis = pool.getResource()) {
             jedis.del(onlineKey(serverName));
+        }
+    }
+
+    public boolean exists(String key) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.exists(key);
         }
     }
 

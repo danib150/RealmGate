@@ -1,10 +1,11 @@
 package com.realmgate.services.types.mysql;
 
 import ch.jalu.configme.SettingsManager;
-import com.realmgate.config.RealmGateSettings;
+import com.realmgate.services.types.config.RealmGateSettings;
 import com.realmgate.services.Service;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 
 import javax.sql.DataSource;
 
@@ -12,6 +13,8 @@ public class MySQLService implements Service {
 
     private final SettingsManager settings;
     private HikariDataSource dataSource;
+
+    @Getter private ServerRepository repository;
 
     public MySQLService(SettingsManager settings) {
         this.settings = settings;
@@ -24,7 +27,7 @@ public class MySQLService implements Service {
         String host = settings.getProperty(RealmGateSettings.MYSQL_HOST);
         int port = settings.getProperty(RealmGateSettings.MYSQL_PORT);
         String database = settings.getProperty(RealmGateSettings.MYSQL_DATABASE);
-
+        config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
         config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database);
 
         config.setUsername(settings.getProperty(RealmGateSettings.MYSQL_USERNAME));

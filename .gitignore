@@ -6,7 +6,7 @@ build/
 .kotlin
 
 ### Hytale Server-Jar ###
-libs/*.jar
+libs/HytaleServer.jar
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

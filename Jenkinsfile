@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     environment {
         JAVA_HOME = "/opt/java/jdk-25.0.1+8"
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
@@ -25,11 +29,24 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                  echo "JAVA_HOME=$JAVA_HOME"
                   java -version
                   ./gradlew clean build
                 '''
             }
+        }
+
+        stage('Collect JARs') {
+            steps {
+                sh '''
+                  cp build/libs/*.jar libs/
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            archiveArtifacts artifacts: 'libs/*.jar', fingerprint: true
         }
     }
 }

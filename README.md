@@ -1,3 +1,4 @@
+[![Build Status](https://jenkins.danielebruni.org/job/RealmGate/badge/icon)](https://jenkins.danielebruni.org/job/RealmGate/)
 # 🌐 RealmGate
 
 **RealmGate** is a lightweight **backend routing and server management plugin** for **Hytale**.  

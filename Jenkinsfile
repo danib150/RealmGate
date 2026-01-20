@@ -5,6 +5,11 @@ pipeline {
         jdk 'Corretto25'
     }
 
+    environment {
+        JAVA_HOME = "${tool 'Corretto25'}"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -23,7 +28,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh './gradlew clean build'
+                sh '''
+                  java -version
+                  ./gradlew clean build
+                '''
             }
         }
     }

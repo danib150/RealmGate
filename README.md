@@ -1,4 +1,4 @@
-[![Build Status](https://jenkins.danielebruni.org/job/RealmGate/badge/icon)](https://jenkins.danielebruni.org/job/RealmGate/)
+[![Build Status](https://jenkins.danielebruni.org/job/RealmGate/badge/icon)](https://jenkins.danielebruni.org/job/RealmGate/) [![](https://jitpack.io/v/danib150/RealmGate.svg)](https://jitpack.io/#danib150/RealmGate)
 # 🌐 RealmGate
 
 **RealmGate** is a lightweight **backend routing and server management plugin** for **Hytale**.  
@@ -130,9 +130,21 @@ RealmGate depends on the **official Hytale server JAR**, which is **proprietary 
 
 ### Setup
 
-1. Build the plugin:
 ```
 ./gradlew build
+```
+
+### Repository
+```
+repositories {
+	mavenCentral()
+	maven { url = uri("https://jitpack.io") }
+}
+```
+```
+dependencies {
+        implementation("com.github.danib150:RealmGate:Tag")
+}
 ```
 
 ---

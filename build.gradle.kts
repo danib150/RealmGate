@@ -7,6 +7,7 @@ group = "com.realmgate"
 version = "1.0.0"
 
 repositories {
+    maven(uri("jitpack.io"))
     mavenCentral()
     maven(uri("https://nexus.lucko.me/repository/maven-hytale/"))
 }

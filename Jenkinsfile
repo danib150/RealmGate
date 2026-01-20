@@ -46,7 +46,9 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'libs/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'libs/*.jar',
+                             excludes: 'libs/HytaleServer.jar',
+                             fingerprint: true
         }
     }
 }

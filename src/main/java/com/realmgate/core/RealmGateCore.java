@@ -39,7 +39,7 @@ public class RealmGateCore {
         settings.reload();
         payloadSigner = new PayloadSigner(settings.getProperty(RealmGateSettings.SECRET_KEY));
         loadServers();
-        plugin.getServices().getConfigurationService().getValidator().validate(settings, servers);
+        plugin.getServices().getConfigurationService().getValidator().validate(settings);
         initRouter();
     }
 
@@ -51,8 +51,7 @@ public class RealmGateCore {
     }
 
     private void initRouter() {
-        SettingsManager settingsManager = plugin.getServices().getConfigurationService().getSettings();
-        serverRouter = new ServerRouter(servers,settingsManager.getProperty(RealmGateSettings.FALLBACK_ENABLED), settingsManager.getProperty(RealmGateSettings.FALLBACK_LIST), plugin.getServices().getRedisService());
+        serverRouter = new ServerRouter(servers, plugin.getServices().getRedisService());
     }
 
     public Map<String, BackendServer> getServers() {

@@ -1,22 +1,23 @@
 package com.realmgate.services.types.config.validation;
 
 import ch.jalu.configme.SettingsManager;
+import com.hypixel.hytale.server.core.io.ServerManager;
 import com.realmgate.services.types.config.RealmGateSettings;
 import com.realmgate.server.BackendServer;
 
-import java.util.List;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
 import java.util.Map;
 
 public class ConfigValidator {
 
-    public void validate(SettingsManager settings, Map<String, BackendServer> servers) throws ConfigValidatorException {
-        validateCore(settings, servers);
-        validateFallback(settings, servers);
+    public void validate(SettingsManager settings) throws ConfigValidatorException {
+        validateCore(settings);
         validateMySQL(settings);
         validateRedis(settings);
     }
 
-    private void validateCore(SettingsManager settings, Map<String, BackendServer> servers) throws ConfigValidatorException {
+    private void validateCore(SettingsManager settings) throws ConfigValidatorException {
 
         String secret = settings.getProperty(RealmGateSettings.SECRET_KEY);
         if (secret.isBlank() || secret.equals("CHANGE_ME")) {
@@ -28,31 +29,23 @@ public class ConfigValidator {
             throw new ConfigValidatorException("default-server cannot be empty");
         }
 
+        String address = settings.getProperty(RealmGateSettings.SERVER_ADDRESS);
+        if (address.isBlank()) {
+            throw new ConfigValidatorException("server-public-address cannot be empty");
+        }
+
+        int port = settings.getProperty(RealmGateSettings.SERVER_PORT);
+        if (port < 0 || port > 65535) {
+            throw new ConfigValidatorException("server-public-port out of range");
+        }
+
+
+        /*
         if (!servers.containsKey(def)) {
             throw new ConfigValidatorException("default-server references unknown server: " + def);
         }
-    }
 
-
-    private void validateFallback(SettingsManager settings, Map<String, BackendServer> servers) throws ConfigValidatorException {
-
-        boolean enabled = settings.getProperty(RealmGateSettings.FALLBACK_ENABLED);
-
-        List<String> list = settings.getProperty(RealmGateSettings.FALLBACK_LIST);
-
-        if (!enabled) {
-            return;
-        }
-
-        if (list.isEmpty()) {
-            throw new ConfigValidatorException("fallback.enabled is true but fallback.list is empty");
-        }
-
-        for (String name : list) {
-            if (!servers.containsKey(name)) {
-                throw new ConfigValidatorException("fallback.list references unknown server: " + name);
-            }
-        }
+         */
     }
 
 

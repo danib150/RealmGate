@@ -27,23 +27,23 @@ public class MySQLService implements Service {
         String host = settings.getProperty(RealmGateSettings.MYSQL_HOST);
         int port = settings.getProperty(RealmGateSettings.MYSQL_PORT);
         String database = settings.getProperty(RealmGateSettings.MYSQL_DATABASE);
-        config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
-        config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database);
+        boolean useSsl = settings.getProperty(RealmGateSettings.MYSQL_USE_SSL);
+
+        String jdbcUrl = "jdbc:mariadb://" + host + ":" + port + "/" + database + "?useSsl=" + useSsl + "&sslMode=" + (useSsl ? "REQUIRED" : "DISABLE");
+
+        config.setJdbcUrl(jdbcUrl);
 
         config.setUsername(settings.getProperty(RealmGateSettings.MYSQL_USERNAME));
         config.setPassword(settings.getProperty(RealmGateSettings.MYSQL_PASSWORD));
 
+        config.setDriverClassName("org.mariadb.jdbc.Driver");
+
         config.setMaximumPoolSize(1);
         config.setMinimumIdle(1);
-        config.setPoolName("RealmGate-MySQL");
-
-        config.addDataSourceProperty("useSSL", settings.getProperty(RealmGateSettings.MYSQL_USE_SSL));
-        config.addDataSourceProperty("cachePrepStmts", true);
-        config.addDataSourceProperty("prepStmtCacheSize", 250);
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
-        config.addDataSourceProperty("useServerPrepStmts", true);
+        config.setPoolName("RealmGate-MariaDB");
 
         this.dataSource = new HikariDataSource(config);
+        repository = new ServerRepository(dataSource);
     }
 
     @Override

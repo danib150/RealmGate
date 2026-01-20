@@ -17,13 +17,59 @@ public class ServerRepository {
 
     public ServerRepository(DataSource dataSource) {
         this.dataSource = dataSource;
+        createTableIfNotExists();
     }
+
+    public boolean delete(String name) {
+        String sql = "DELETE FROM servers WHERE name = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, name);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to delete server: " + name, e
+            );
+        }
+    }
+
+    public boolean exists(String name) {
+        String sql = "SELECT 1 FROM servers WHERE name = ? LIMIT 1";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, name);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to check server existence: " + name, e);
+        }
+    }
+
+    private void createTableIfNotExists() {
+        String sql = "CREATE TABLE IF NOT EXISTS servers (id INT UNSIGNED NOT NULL AUTO_INCREMENT, name VARCHAR(64) NOT NULL, host VARCHAR(255) NOT NULL, port INT UNSIGNED NOT NULL, PRIMARY KEY (id), UNIQUE KEY uk_servers_name (name)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to create servers table", e);
+        }
+    }
+
 
     public void createServer(BackendServer server) {
         String sql = "INSERT INTO servers (name, host, port) VALUES (?, ?, ?)";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, server.getName());
             ps.setString(2, server.getAddress());
@@ -32,9 +78,7 @@ public class ServerRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            throw new IllegalStateException(
-                    "Failed to create server " + server.getName(), e
-            );
+            throw new IllegalStateException("Failed to create server " + server.getName(), e);
         }
     }
 
@@ -44,9 +88,7 @@ public class ServerRepository {
 
         List<BackendServer> servers = new ArrayList<>();
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 servers.add(map(rs));
             }
@@ -60,8 +102,7 @@ public class ServerRepository {
     public void createOrUpdateServer(BackendServer server) {
         String sql = "INSERT INTO servers (name, host, port) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE host = VALUES(host), port = VALUES(port)";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, server.getName());
             ps.setString(2, server.getAddress());
@@ -70,19 +111,13 @@ public class ServerRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            throw new IllegalStateException(
-                    "Failed to create or update server " + server.getName(), e
-            );
+            throw new IllegalStateException("Failed to create or update server " + server.getName(), e);
         }
     }
 
 
     private BackendServer map(ResultSet rs) throws SQLException {
-        return new BackendServer(
-                rs.getString("name"),
-                rs.getString("host"),
-                rs.getInt("port")
-        );
+        return new BackendServer(rs.getString("name"), rs.getString("host"), rs.getInt("port"));
     }
 
 }

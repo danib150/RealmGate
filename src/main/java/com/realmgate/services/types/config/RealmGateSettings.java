@@ -17,17 +17,18 @@ public final class RealmGateSettings implements SettingsHolder {
     @Comment("Secret key used to sign and verify referral data between servers")
     public static final Property<String> SECRET_KEY = newProperty("secret-key", "CHANGE_ME");
 
-    @Comment("Redirect-Only Enabled (The server try to redirect you to an another server skipping this server)")
-    public static final Property<Boolean> REDIRECT_ONLY = newProperty("redirect-only", false);
+    @Comment("Logical name of this server in the network (e.g. lobby-1, minigame-2). "
+            + "Must be unique and match the entry stored in the database.")
+    public static final Property<String> DEFAULT = newProperty("server-name", "lobby");
 
-    @Comment("Default server name used when redirect-only or fallback is enabled")
-    public static final Property<String> DEFAULT = newProperty("default-server", "lobby");
+    @Comment("Public address used by other servers or gateways to connect to this server. "
+            + "This should be a hostname or public IP (not 0.0.0.0 or a Docker internal IP). "
+            + "Example: play.mynetwork.com")
+    public static final Property<String> SERVER_ADDRESS = newProperty("server-public-address", "");
 
-    @Comment("Enable fallback routing if the default server is unavailable")
-    public static final Property<Boolean> FALLBACK_ENABLED = newProperty("fallback.enabled", false);
-
-    @Comment("Fallback list")
-    public static final ListProperty<String> FALLBACK_LIST = newListProperty("fallback.list", "lobby");
+    @Comment("Port used by other servers or gateways to connect. "
+            + "If set to 0, the runtime bound port will be used.")
+    public static final Property<Integer> SERVER_PORT = newProperty("server-public-port", 0);
 
     /* ------------------------
      * MySQL

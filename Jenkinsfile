@@ -21,6 +21,7 @@ pipeline {
             steps {
                 sh '''
                   java -version
+                  echo "JAVA_HOME=$JAVA_HOME"
                   ./gradlew clean build
                 '''
             }

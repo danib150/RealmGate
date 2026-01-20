@@ -1,15 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'Corretto25'
-    }
-
-    environment {
-        JAVA_HOME = "${tool 'Corretto25'}"
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
-    }
-
     stages {
         stage('Checkout') {
             steps {

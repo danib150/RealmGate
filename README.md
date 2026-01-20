@@ -78,7 +78,7 @@ You are connected to: lobby
 Shows where a player is currently located (if online).
 
 ```
-Notch is currently on: vanilla
+Simon is currently on: vanilla
 ```
 
 ---
@@ -130,17 +130,7 @@ RealmGate depends on the **official Hytale server JAR**, which is **proprietary 
 
 ### Setup
 
-1. Download the official Hytale downloader  
-   https://downloader.hytale.com/hytale-downloader.zip
-
-2. Use it to obtain the official Hytale server JAR
-
-3. Place the JAR here:
-```
-libs/HytaleServer.jar
-```
-
-4. Build the plugin:
+1. Build the plugin:
 ```
 ./gradlew build
 ```
